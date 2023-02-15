@@ -22,7 +22,6 @@ public class LoginController {
 
     @PostMapping(path = "/signIn", consumes = "application/json")
     public UserDetails addUser(@Valid @RequestBody UserDetails userDetails) {
-        System.out.println(userDetails);
         return this.userService.addUser(userDetails);
     }
 

@@ -10,6 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.springlearning.springlearning.entities.Items;
 import com.springlearning.springlearning.mongodb.ItemsCollection;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
 
 @Primary
 @Service
@@ -22,7 +30,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Items> getItems() {
-        System.out.println("came into implemenation classssssssssssssss");
 
         return mongoDb.findAll();
     }
@@ -31,7 +38,6 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<Items> getItemById(String id) {
         try {
             Optional<Items> oldData0 = mongoDb.findById(id);
-            System.out.println(oldData0.isPresent() + "10000000000000000000000" + oldData0.get());
             if (oldData0.isPresent()) {
                 return ResponseEntity.status(HttpStatus.OK).body(oldData0.get());
             } else {
@@ -45,7 +51,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Items addItem(Items item) {
-        System.out.println(item);
         mongoDb.save(item);
         return item;
     }
@@ -75,6 +80,18 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<String> deleteItem(String id) {
         mongoDb.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Item Deleted Successfully");
+    }
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    public List<Items> getTotalRevenueByItemAndPriceRange(String name, int quantity, int price) {
+        MatchOperation matchOperation = Aggregation.match(Criteria.where("itemName").is(name)
+                .andOperator(Criteria.where("quantity").gte(quantity), Criteria.where("price").lte(price)));
+        SortOperation sortByPopDesc = Aggregation.sort(Sort.by(Direction.DESC, "itemName"));
+        Aggregation aggregation = Aggregation.newAggregation(matchOperation, sortByPopDesc);
+        AggregationResults<Items> results = mongoTemplate.aggregate(aggregation, "items", Items.class);
+        return results.getMappedResults();
     }
 
 }
