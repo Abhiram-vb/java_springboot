@@ -1,7 +1,5 @@
 package com.springlearning.springlearning.entities;
 
-import java.util.function.IntPredicate;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
