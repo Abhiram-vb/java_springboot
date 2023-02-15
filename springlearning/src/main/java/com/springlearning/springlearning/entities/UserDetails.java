@@ -1,10 +1,34 @@
 package com.springlearning.springlearning.entities;
 
-public class UserDetails {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "userdetails")
+public class UserDetails {
+    @Id
+    private String id;
     private String name;
     private String email;
     private String password;
+
+    public UserDetails(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public UserDetails(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public UserDetails() {
+    }
+
+    @Override
+    public String toString() {
+        return "UserDetails [name=" + name + ", email=" + email + ", password=" + password + "]";
+    }
 
     public String getName() {
         return name;

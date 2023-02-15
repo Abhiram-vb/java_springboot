@@ -10,7 +10,7 @@ import com.springlearning.springlearning.entities.Items;
 public interface ItemService {
     public List<Items> getItems();
 
-    public Optional<Items> getItemById(String id);
+    public ResponseEntity<Items> getItemById(String id);
 
     public Items addItem(Items item);
 

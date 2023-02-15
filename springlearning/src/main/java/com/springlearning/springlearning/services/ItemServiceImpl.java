@@ -6,36 +6,48 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.springlearning.springlearning.entities.Items;
-import com.springlearning.springlearning.mongodb.MongoDbConnect;
+import com.springlearning.springlearning.mongodb.ItemsCollection;
 
 @Primary
 @Service
 @ResponseBody
 
 public class ItemServiceImpl implements ItemService {
-    List<Items> list;
 
     @Autowired
-    MongoDbConnect mongoDb;
+    ItemsCollection mongoDb;
 
     @Override
     public List<Items> getItems() {
+        System.out.println("came into implemenation classssssssssssssss");
+
         return mongoDb.findAll();
     }
 
     @Override
-    public Optional<Items> getItemById(String id) {
-        System.out.println(mongoDb.findByitemName("glasses"));
-        return mongoDb.findById(id);
+    public ResponseEntity<Items> getItemById(String id) {
+        try {
+            Optional<Items> oldData0 = mongoDb.findById(id);
+            System.out.println(oldData0.isPresent() + "10000000000000000000000" + oldData0.get());
+            if (oldData0.isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(oldData0.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(oldData0.get());
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @Override
     public Items addItem(Items item) {
-        item.setItemId(UUID.randomUUID().toString().split("-")[0]);
+        System.out.println(item);
         mongoDb.save(item);
         return item;
     }

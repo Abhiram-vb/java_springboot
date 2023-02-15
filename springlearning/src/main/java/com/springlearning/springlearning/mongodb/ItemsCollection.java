@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.springlearning.springlearning.entities.Items;
 
-public interface MongoDbConnect extends MongoRepository<Items, String> {
+public interface ItemsCollection extends MongoRepository<Items, String> {
 
     List<Items> findByitemName(String string);
 

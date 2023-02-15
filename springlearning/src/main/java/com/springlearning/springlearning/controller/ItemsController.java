@@ -1,7 +1,8 @@
 package com.springlearning.springlearning.controller;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,7 +20,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @ControllerAdvice
-public class Mycontroller {
+public class ItemsController {
 
     @Autowired
     private ItemService itemService;
@@ -35,13 +36,14 @@ public class Mycontroller {
     }
 
     @GetMapping(path = "/getItems/{itemId}")
-    public Optional<Items> getItemById(@PathVariable String itemId) {
+    public ResponseEntity<Items> getItemById(@PathVariable String itemId) {
         return this.itemService.getItemById(itemId);
     }
 
     @PostMapping(path = "/addItem", consumes = "application/json")
     public Items postItem(@Valid @RequestBody Items item) {
-        System.out.println("helooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println(item + "inside add item");
+        item.setItemId(UUID.randomUUID().toString().split("-")[0]);
         return this.itemService.addItem(item);
     }
 
