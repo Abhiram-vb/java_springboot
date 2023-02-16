@@ -18,12 +18,9 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
 import com.springlearning.springlearning.entities.Items;
 import com.springlearning.springlearning.services.ItemService;
-
 import static org.assertj.core.api.Assertions.*;
-
 import java.util.List;
 import java.util.Optional;
 
