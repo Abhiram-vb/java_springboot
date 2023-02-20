@@ -85,12 +85,17 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Override
     public List<Items> getTotalRevenueByItemAndPriceRange(String name, int quantity, int price) {
         MatchOperation matchOperation = Aggregation.match(Criteria.where("itemName").is(name)
-                .andOperator(Criteria.where("quantity").gte(quantity), Criteria.where("price").lte(price)));
-        SortOperation sortByPopDesc = Aggregation.sort(Sort.by(Direction.DESC, "itemName"));
-        Aggregation aggregation = Aggregation.newAggregation(matchOperation, sortByPopDesc);
-        AggregationResults<Items> results = mongoTemplate.aggregate(aggregation, "items", Items.class);
+                .andOperator(Criteria.where("quantity").gte(quantity),
+                        Criteria.where("price").lte(price)));
+        SortOperation sortByPopDesc = Aggregation.sort(Sort.by(Direction.DESC,
+                "itemName"));
+        Aggregation aggregation = Aggregation.newAggregation(matchOperation,
+                sortByPopDesc);
+        AggregationResults<Items> results = mongoTemplate.aggregate(aggregation,
+                "items", Items.class);
         return results.getMappedResults();
     }
 

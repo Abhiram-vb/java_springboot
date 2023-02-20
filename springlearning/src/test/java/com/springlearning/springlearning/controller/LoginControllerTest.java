@@ -41,8 +41,10 @@ public class LoginControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<UserDetails> request = new HttpEntity<UserDetails>(newUserDetails, headers);
-        ResponseEntity<UserDetails> response = restTemplate.postForEntity("/signIn", request, UserDetails.class);
+        HttpEntity<UserDetails> request = new HttpEntity<UserDetails>(newUserDetails,
+                headers);
+        ResponseEntity<UserDetails> response = restTemplate.postForEntity("/signIn",
+                request, UserDetails.class);
         userId = response.getBody().getId();
         System.out.println(response.getBody());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

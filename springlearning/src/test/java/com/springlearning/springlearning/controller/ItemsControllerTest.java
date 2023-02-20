@@ -48,7 +48,8 @@ public class ItemsControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Items> request = new HttpEntity<>(newItem, headers);
-        ResponseEntity<Items> response = restTemplate.postForEntity("/addItem", request, Items.class);
+        ResponseEntity<Items> response = restTemplate.postForEntity("/addItem",
+                request, Items.class);
         itemId = response.getBody().getItemId();
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -59,7 +60,8 @@ public class ItemsControllerTest {
     @Test
     @Order(2)
     void testGetItemById() {
-        ResponseEntity<Optional<Items>> response = restTemplate.exchange("/getItems/" + itemId, HttpMethod.GET, null,
+        ResponseEntity<Optional<Items>> response = restTemplate.exchange("/getItems/"
+                + itemId, HttpMethod.GET, null,
                 new ParameterizedTypeReference<Optional<Items>>() {
                 });
         Optional<Items> items = response.getBody();
@@ -72,7 +74,8 @@ public class ItemsControllerTest {
     @Test
     @Order(3)
     void testGetItems() {
-        ResponseEntity<List<Items>> response = restTemplate.exchange("/getItems", HttpMethod.GET, null,
+        ResponseEntity<List<Items>> response = restTemplate.exchange("/getItems",
+                HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Items>>() {
                 });
         List<Items> items = response.getBody();
@@ -93,7 +96,8 @@ public class ItemsControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Items> request = new HttpEntity<>(newItem, headers);
-        ResponseEntity<String> response = restTemplate.exchange("/updateItem/" + itemId, HttpMethod.PUT, request,
+        ResponseEntity<String> response = restTemplate.exchange("/updateItem/" +
+                itemId, HttpMethod.PUT, request,
                 new ParameterizedTypeReference<String>() {
                 });
 
@@ -106,7 +110,8 @@ public class ItemsControllerTest {
     @Test
     @Order(5)
     void testDeleteItem() {
-        ResponseEntity<String> response = restTemplate.exchange("/deleteItem/" + itemId, HttpMethod.DELETE, null,
+        ResponseEntity<String> response = restTemplate.exchange("/deleteItem/" +
+                itemId, HttpMethod.DELETE, null,
                 new ParameterizedTypeReference<String>() {
                 });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -125,7 +130,8 @@ public class ItemsControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Items> request = new HttpEntity<>(newItem, headers);
-        ResponseEntity<Items> response = restTemplate.postForEntity("/addItems", request, Items.class);
+        ResponseEntity<Items> response = restTemplate.postForEntity("/addItems",
+                request, Items.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -141,7 +147,8 @@ public class ItemsControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Items> request = new HttpEntity<>(newItem, headers);
-        ResponseEntity<Items> response = restTemplate.postForEntity("/addItem", request, Items.class);
+        ResponseEntity<Items> response = restTemplate.postForEntity("/addItem",
+                request, Items.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -159,7 +166,8 @@ public class ItemsControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Items> request = new HttpEntity<>(newItem, headers);
-        ResponseEntity<String> response = restTemplate.exchange("/updateItem/" + itemId, HttpMethod.PUT, request,
+        ResponseEntity<String> response = restTemplate.exchange("/updateItem/" +
+                itemId, HttpMethod.PUT, request,
                 new ParameterizedTypeReference<String>() {
                 });
 
@@ -171,7 +179,8 @@ public class ItemsControllerTest {
     @Test
     // @Order(6)
     void testGetItemWithWrongId() {
-        ResponseEntity<Optional<Items>> response = restTemplate.exchange("/getItems/" + itemId, HttpMethod.GET, null,
+        ResponseEntity<Optional<Items>> response = restTemplate.exchange("/getItems/"
+                + itemId, HttpMethod.GET, null,
                 new ParameterizedTypeReference<Optional<Items>>() {
                 });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
